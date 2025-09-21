@@ -35,18 +35,15 @@ const CheckoutPage = () => {
     e.preventDefault();
 
     try {
-      // Create a new array with all the required product details
+      // Create a new array with only productId and quantity
       const productsForOrder = cartItems.map(item => ({
         productId: item.productId._id,
-        name: item.productId.name,
-        price: item.productId.price,
-        image: item.productId.image,
         quantity: item.quantity,
       }));
 
       const orderData = {
         customerInfo: formData, 
-        products: productsForOrder, // Using the new array
+        products: productsForOrder, // Using the simplified array
         totalAmount: total,
       };
       
@@ -59,7 +56,7 @@ const CheckoutPage = () => {
       }
     } catch (error) {
       console.error("Error placing order:", error);
-      // Removed the alert and replaced with a log
+      // Replaced the alert with a console log for a better user experience
       console.log("There was an error placing your order. Please try again.");
     }
   };
