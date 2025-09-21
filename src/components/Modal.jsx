@@ -8,7 +8,7 @@ function Modal({ isOpen, onClose, editProduct, refreshProducts }) {
     brand: "",
     price: "",
     discount: 0,
-    image:  "OIPP.webp" 
+    image:  "shop_image.jpg" 
   });
 
   useEffect(() => {
@@ -21,7 +21,7 @@ function Modal({ isOpen, onClose, editProduct, refreshProducts }) {
         brand: "",
         price: "",
         discount: 0,
-        image: "OIPP.webp" 
+        image: "shop_image.jpg"  
 
       });
     }
@@ -38,10 +38,10 @@ function Modal({ isOpen, onClose, editProduct, refreshProducts }) {
     try {
       if (editProduct) {
         // Update product
-        await axios.put(`https://figma-furniro-backend.onrender.com/api/cart/${editProduct._id}`, formData);
+        await axios.put(`http://localhost:5000/api/cart/${editProduct._id}`, formData);
       } else {
         // Add product
-        await axios.post("https://figma-furniro-backend.onrender.com/api/cart", formData);
+        await axios.post("http://localhost:5000/api/cart", formData);
       }
       refreshProducts();
       onClose();

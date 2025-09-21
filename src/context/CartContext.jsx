@@ -3,7 +3,7 @@ import React, { createContext, useState, useEffect } from 'react';
 export const CartContext = createContext();
 
 // Replace this with your actual backend URL from Render
-const BACKEND_API_URL = 'https://figma-furniro-backend.onrender.com/api/cartt';
+const BACKEND_API_URL = 'http://localhost:5000/api/cartt';
 
 export const CartProvider = ({ children }) => {
   // state for cart items and loading status

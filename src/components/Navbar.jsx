@@ -2,33 +2,29 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Navbar = () => {
-  return (
-    
-    <div className="h-28 flex items-center justify-between px-8 ">
-  {/* Logo */}
-  <Link to={'/'} className=" items-center space-x-4 relative sm:block hidden">
-    <img 
-      width={130}
-      src="https://static.vecteezy.com/system/resources/previews/014/372/038/original/luxury-letter-a-monoline-logo-free-vector.jpg"
-      alt="FurniroLogo"
-    />
-    <span className="font-extrabold text-3xl absolute top-[25px] left-[95px]">Furniro</span>
-  </Link>
+  return (
+    <div className="h-20 bg-gray-900 flex items-center justify-between px-12 text-white">
+      {/* Logo */}
+    
+        <span className="font-extrabold text-2xl">Furniro</span>
+      
 
-  <ul className="flex space-x-6 font-semibold ">
-    <Link to={'/'} className="hover:text-gray-300 cursor-pointer">Home</Link>
-    <Link to={'/shop'} className="hover:text-gray-300 cursor-pointer">Shop</Link>
-    <Link to={'/about'} className="hover:text-gray-300 cursor-pointer">About</Link>
-    <Link to={'/contact'} className="hover:text-gray-300 cursor-pointer">Contact</Link>
-  </ul>
-  <div className='gap-4 flex'>
-    <Link to={'/cart'}>
-      <img width={30} src="cart_icon.png" alt="" />
-    </Link>
-  </div>
-</div>
+      {/* Navigation Links */}
+      <ul className="flex space-x-8 font-medium">
+        <Link to={'/'} className="hover:underline hover:underline-offset-4 hover:text-gray-400 transition-colors duration-300">Home</Link>
+        <Link to={'/shop'} className="hover:underline hover:underline-offset-4 hover:text-gray-400 transition-colors duration-300">Shop</Link>
+        <Link to={'/about'} className="hover:underline hover:underline-offset-4 hover:text-gray-400 transition-colors duration-300">About</Link>
+        <Link to={'/contact'} className="hover:underline hover:underline-offset-4 hover:text-gray-400 transition-colors duration-300">Contact</Link>
+      </ul>
 
-  )
+      {/* Cart Icon */}
+      <div className="flex">
+        <Link to={'/cart'} className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 hover:bg-gray-700 transition-colors duration-300">
+          <img width={20} className='invert' src="cart_icon.png" alt="" />
+        </Link>
+      </div>
+    </div>
+  )
 }
 
 export default Navbar
