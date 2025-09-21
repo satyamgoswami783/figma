@@ -1,4 +1,3 @@
-
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
@@ -18,7 +17,7 @@ const CheckoutPage = () => {
   });
 
   const subtotal = cartItems.reduce(
-    (total, item) => total + Number(item.price) * Number(item.quantity),
+    (total, item) => total + Number(item.productId.price) * Number(item.quantity),
     0
   );
   const shipping = 0;
@@ -128,8 +127,8 @@ const CheckoutPage = () => {
           <div className="space-y-4">
             {cartItems.map(item => (
               <div key={item._id} className="flex items-center justify-between">
-                <span>{item.name} x {item.quantity}</span>
-                <span>${(Number(item.price) * Number(item.quantity)).toFixed(2)}</span>
+                <span>{item.productId.name} x {item.quantity}</span>
+                <span>${(Number(item.productId.price) * Number(item.quantity)).toFixed(2)}</span>
               </div>
             ))}
           </div>
