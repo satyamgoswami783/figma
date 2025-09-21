@@ -3,7 +3,7 @@ import React, { createContext, useState, useEffect } from 'react';
 export const CartContext = createContext();
 
 // Replace this with your actual backend URL from Render
-const BACKEND_API_URL = 'https://figma-furniro-backend.onrender.com/api/cart';
+const BACKEND_API_URL = 'https://figma-furniro-backend.onrender.com/api/cartt';
 
 export const CartProvider = ({ children }) => {
   // state for cart items and loading status
@@ -31,7 +31,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = async (product) => {
     try {
       setLoading(true);
-      const response = await fetch(`${BACKEND_API_URL}/`, {
+      const response = await fetch(`${BACKEND_API_URL}/add`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ product }),
@@ -49,7 +49,7 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = async (_id) => {
     try {
       setLoading(true);
-      const response = await fetch(`${BACKEND_API_URL}/${_id}`, {
+      const response = await fetch(`${BACKEND_API_URL}/remove/${_id}`, {
         method: 'DELETE',
       });
       const data = await response.json();
@@ -66,7 +66,7 @@ export const CartProvider = ({ children }) => {
     if (newQuantity < 1) return;
     try {
       setLoading(true);
-      const response = await fetch(`${BACKEND_API_URL}/${_id}`, {
+      const response = await fetch(`${BACKEND_API_URL}/update`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ productId: _id, quantity: newQuantity }),
@@ -108,3 +108,5 @@ export const CartProvider = ({ children }) => {
     </CartContext.Provider>
   );
 };
+
+export default CartProvider;
