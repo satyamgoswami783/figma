@@ -17,7 +17,7 @@ function Shop() {
   }, [page]);
 
   const fetchProducts = async () => {
-    const res = await axios.get(`http://localhost:5000/api/cart?page=${page}&limit=${limit}`);
+    const res = await axios.get(`https://figma-backend-dzfn.onrender.com/api/cart?page=${page}&limit=${limit}`);
     setProducts(res.data.products);
     setTotal(res.data.total);
   };
@@ -33,7 +33,7 @@ function Shop() {
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:5000/api/cart/${id}`);
+    await axios.delete(`https://figma-backend-dzfn.onrender.com/api/cart/${id}`);
     fetchProducts();
   };
 
