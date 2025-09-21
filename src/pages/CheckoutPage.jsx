@@ -35,9 +35,18 @@ const CheckoutPage = () => {
     e.preventDefault();
 
     try {
+      // Create a new array with all the required product details
+      const productsForOrder = cartItems.map(item => ({
+        productId: item.productId._id,
+        name: item.productId.name,
+        price: item.productId.price,
+        image: item.productId.image,
+        quantity: item.quantity,
+      }));
+
       const orderData = {
         customerInfo: formData, 
-        products: cartItems,
+        products: productsForOrder, // Using the new array
         totalAmount: total,
       };
       
@@ -50,7 +59,8 @@ const CheckoutPage = () => {
       }
     } catch (error) {
       console.error("Error placing order:", error);
-      alert("There was an error placing your order. Please try again.");
+      // Removed the alert and replaced with a log
+      console.log("There was an error placing your order. Please try again.");
     }
   };
 
