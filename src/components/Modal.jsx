@@ -38,10 +38,10 @@ function Modal({ isOpen, onClose, editProduct, refreshProducts }) {
     try {
       if (editProduct) {
         // Update product
-        await axios.put(`http://localhost:5000/api/cart/${editProduct._id}`, formData);
+        await axios.put(`https://figma-furniro-backend.onrender.com/api/cart/${editProduct._id}`, formData);
       } else {
         // Add product
-        await axios.post("http://localhost:5000/api/cart", formData);
+        await axios.post("https://figma-furniro-backend.onrender.com/api/cart", formData);
       }
       refreshProducts();
       onClose();

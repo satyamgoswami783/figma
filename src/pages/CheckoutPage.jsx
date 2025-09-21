@@ -42,7 +42,7 @@ const CheckoutPage = () => {
         totalAmount: total,
       };
       
-      const response = await axios.post('http://localhost:5000/api/orders', orderData);
+      const response = await axios.post('https://figma-furniro-backend.onrender.com/api/orders', orderData);
 
       if (response.status === 201) {
         clearCart();

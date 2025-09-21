@@ -1,60 +1,108 @@
-// src/context/CartContext.js
 import React, { createContext, useState, useEffect } from 'react';
 
 export const CartContext = createContext();
 
+// Replace this with your actual backend URL from Render
+const BACKEND_API_URL = 'https://figma-furniro-backend.onrender.com/api/cart';
+
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState(() => {
-    try {
-      const storedCartItems = localStorage.getItem('cartItems');
-      return storedCartItems ? JSON.parse(storedCartItems) : [];
-    } catch (error) {
-      console.error("Failed to load cart from localStorage", error);
-      return [];
-    }
-  });
+  // state for cart items and loading status
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  // Fetch cart data from the backend on initial load
   useEffect(() => {
-    try {
-      localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    } catch (error) {
-      console.error("Failed to save cart to localStorage", error);
-    }
-  }, [cartItems]);
-
-  const addToCart = (product) => {
-    setCartItems((prevItems) => {
-      const existingItem = prevItems.find((item) => item._id === product._id);
-      if (existingItem) {
-        return prevItems.map((item) =>
-          item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
-        );
-      } else {
-        // Corrected: Convert price to a number here
-        return [...prevItems, { ...product, price: Number(product.price), quantity: 1 }];
+    const fetchCart = async () => {
+      try {
+        const response = await fetch(BACKEND_API_URL);
+        const data = await response.json();
+        setCartItems(data.items || []); // Use data.items as per your backend structure
+      } catch (error) {
+        console.error("Failed to fetch cart from backend:", error);
+        setCartItems([]);
+      } finally {
+        setLoading(false);
       }
-    });
+    };
+    fetchCart();
+  }, []); // Empty dependency array ensures this runs only once
+
+  // Function to add a product to the cart via API
+  const addToCart = async (product) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${BACKEND_API_URL}/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product }),
+      });
+      const data = await response.json();
+      setCartItems(data.items);
+    } catch (error) {
+      console.error("Failed to add item to cart:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const clearCart = () => {
-  setCartItems([]);
-};
-  const removeFromCart = (_id) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item._id !== _id));
+  // Function to remove an item from the cart via API
+  const removeFromCart = async (_id) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${BACKEND_API_URL}/${_id}`, {
+        method: 'DELETE',
+      });
+      const data = await response.json();
+      setCartItems(data.items);
+    } catch (error) {
+      console.error("Failed to remove item from cart:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const updateQuantity = (_id, newQuantity) => {
+  // Function to update item quantity via API
+  const updateQuantity = async (_id, newQuantity) => {
     if (newQuantity < 1) return;
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item._id === _id ? { ...item, quantity: newQuantity } : item
-      )
-    );
+    try {
+      setLoading(true);
+      const response = await fetch(`${BACKEND_API_URL}/${_id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId: _id, quantity: newQuantity }),
+      });
+      const data = await response.json();
+      setCartItems(data.items);
+    } catch (error) {
+      console.error("Failed to update item quantity:", error);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  // Function to clear the entire cart via API
+  const clearCart = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${BACKEND_API_URL}/clear`, {
+        method: 'DELETE',
+      });
+      const data = await response.json();
+      setCartItems(data.items);
+    } catch (error) {
+      console.error("Failed to clear cart:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading cart...</div>;
+  }
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, updateQuantity ,clearCart}}
+      value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart }}
     >
       {children}
     </CartContext.Provider>
