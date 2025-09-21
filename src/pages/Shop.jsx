@@ -33,7 +33,7 @@ function Shop() {
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:5000/api/cart/${id}`);
+    await axios.delete(`https://figma-furniro-backend.onrender.com/api/cart/${id}`);
     fetchProducts();
   };
 
