@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+
+.product-card-container .product-actions {
+  /* Initially hide the buttons */
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.product-card-container:hover .product-actions {
+  /* Show the buttons on hover */
+  opacity: 1;
+}
