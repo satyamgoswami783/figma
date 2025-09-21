@@ -78,10 +78,11 @@ export const CartProvider = ({ children }) => {
     if (newQuantity < 1) return;
     try {
       setLoading(true);
+      // Corrected URL to include the item's ID
       const response = await fetch(`${BACKEND_API_URL}/update/${_id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ quantity: newQuantity }), // Sahi format
+        body: JSON.stringify({ quantity: newQuantity }),
       });
       if (!response.ok) {
         throw new Error('Failed to update item quantity');
